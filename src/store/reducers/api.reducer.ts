@@ -14,10 +14,13 @@ const initialState: DataState = {
   error: "",
 };
 
-export const fetchAPIData = createAsyncThunk("api/fetchData", async () => {
-  let res = await fetchData();
-  return res;
-});
+export const fetchAPIData = createAsyncThunk(
+  "api/fetchData",
+  async (apiId: number) => {
+    let res = await fetchData(apiId);
+    return res;
+  },
+);
 
 export const apiSlice = createSlice({
   name: "api",

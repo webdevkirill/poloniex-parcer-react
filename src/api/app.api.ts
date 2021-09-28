@@ -1,5 +1,8 @@
 import axios from "axios";
 
+export interface DataI {
+  [propName: string]: DataItemI;
+}
 export interface DataItemI {
   id: number;
   last: string;
@@ -14,13 +17,34 @@ export interface DataItemI {
   low24hr: string;
 }
 
-export function fetchData() {
-  return new Promise<{ [key: string]: DataItemI }>((resolve, reject) => {
+export function fetchData(apiId: number) {
+  return new Promise<DataI>((resolve, reject) => {
     try {
       axios
         .get("https://poloniex.com/public?command=returnTicker")
         .then((res) => res.data)
-        .then((data) => resolve(data));
+        .then((data: DataI) => {
+          const dataKeys = Object.keys(data);
+          const dataLength = dataKeys.length;
+          let slicedDataKeys: string[];
+
+          if (apiId === 1) {
+            slicedDataKeys = dataKeys.slice(0, Math.ceil(dataLength / 2));
+          } else if (apiId === 2) {
+            slicedDataKeys = dataKeys.slice(
+              Math.ceil(dataLength / 2),
+              dataLength,
+            );
+          } else {
+            throw new Error("Неверный индекс страницы");
+          }
+
+          const slicedData: DataI = slicedDataKeys.reduce(
+            (acc, key) => ({ ...acc, [key]: data[key] }),
+            {},
+          );
+          resolve(slicedData);
+        });
     } catch (err) {
       reject(err);
     }
