@@ -5,7 +5,7 @@ import { RootState } from "../store";
 export interface DataState {
   data: { [key: string]: DataItemI };
   status: "idle" | "loading" | "failed";
-  error: string;
+  error: any;
 }
 
 const initialState: DataState = {
@@ -34,6 +34,11 @@ export const apiSlice = createSlice({
       .addCase(fetchAPIData.fulfilled, (state, action) => {
         state.status = "idle";
         state.data = action.payload;
+        state.error = "";
+      })
+      .addCase(fetchAPIData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
