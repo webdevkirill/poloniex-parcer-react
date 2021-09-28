@@ -1,0 +1,32 @@
+.sidebar {
+  display: flex;
+  width: 100vw;
+  padding: 1rem;
+  background-color: #1e88e5;
+}
+
+.link {
+  $parent-selector: &;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #fff;
+    transition: width 0.15s ease-in-out;
+  }
+  &:hover {
+    color: #fff;
+    &::after {
+      width: 100%;
+    }
+  }
+}
