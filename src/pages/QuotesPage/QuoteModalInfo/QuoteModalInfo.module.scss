@@ -1,0 +1,7 @@
+.quote-modal {
+  display: flex;
+  flex-direction: column;
+  &__item {
+    margin-bottom: 0.5rem;
+  }
+}

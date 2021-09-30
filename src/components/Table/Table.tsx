@@ -13,8 +13,8 @@ export default function Table({ headers, data }: TableI) {
   const headersKeys = Object.keys(headers);
   const dispatch = useAppDispatch();
 
-  const handleRowClick = (id: number) => {
-    dispatch(toggleQuote(id));
+  const handleRowClick = (quote: string) => {
+    dispatch(toggleQuote(quote));
   };
 
   return (
@@ -32,7 +32,7 @@ export default function Table({ headers, data }: TableI) {
           key={dataKey}
           className={styles.table__row}
           onClick={() => {
-            handleRowClick(data[dataKey].id);
+            handleRowClick(dataKey);
           }}
         >
           <div className={styles.table__cell}>{dataKey}</div>

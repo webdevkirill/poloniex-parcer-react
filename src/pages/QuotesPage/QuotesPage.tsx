@@ -4,8 +4,14 @@ import styles from "./QuotesPage.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { apiState, fetchAPIData } from "../../store/reducers/api.reducer";
+import {
+  apiState,
+  fetchAPIData,
+  toggleQuote,
+} from "../../store/reducers/api.reducer";
 import QuotesTable from "./QuotesTable/QuotesTable";
+import Modal from "../../components/Modal/Modal";
+import QuoteModalInfo from "./QuoteModalInfo/QuoteModalInfo";
 
 const quotesPageLinks = {
   "/": "О приложении",
@@ -47,8 +53,24 @@ export default function QuotesPage() {
     };
   }, [state.openedQuote, isTimerStarted, id, dispatch]);
 
+  useEffect(() => {
+    if (state.openedQuote === null) {
+      document.body.style.overflow = "";
+    } else {
+      document.body.style.overflow = "hidden";
+    }
+  }, [state.openedQuote]);
+
   return (
     <div>
+      {state.openedQuote !== null && (
+        <Modal
+          title={`Котировка ${state.openedQuote}`}
+          onCancel={() => dispatch(toggleQuote(null))}
+        >
+          <QuoteModalInfo data={state.data[state.openedQuote]} />
+        </Modal>
+      )}
       <Sidebar links={quotesPageLinks} />
       <div className={styles.quotes}>
         <div className={styles.tabs}>

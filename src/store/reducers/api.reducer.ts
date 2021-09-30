@@ -6,7 +6,7 @@ export interface DataState {
   data: { [key: string]: DataItemI };
   status: "idle" | "loading" | "failed";
   error: any;
-  openedQuote: null | number;
+  openedQuote: null | string;
 }
 
 const initialState: DataState = {
