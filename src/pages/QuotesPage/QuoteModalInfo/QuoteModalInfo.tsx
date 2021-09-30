@@ -7,7 +7,6 @@ export interface QuoteModalInfoI {
 }
 
 export default function QuoteModalInfo({ data }: QuoteModalInfoI) {
-  console.log(data);
   return (
     <div className={styles["quote-modal"]}>
       {Object.keys(data).map(
