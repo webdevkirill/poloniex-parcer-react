@@ -25,7 +25,13 @@ export const fetchAPIData = createAsyncThunk(
 export const apiSlice = createSlice({
   name: "api",
   initialState,
-  reducers: {},
+  reducers: {
+    clearData: (state) => {
+      state.data = {};
+      state.status = "idle";
+      state.error = "";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAPIData.pending, (state) => {
@@ -44,5 +50,6 @@ export const apiSlice = createSlice({
 });
 
 export const apiState = (state: RootState) => state.api;
+export const { clearData } = apiSlice.actions;
 
 export default apiSlice.reducer;

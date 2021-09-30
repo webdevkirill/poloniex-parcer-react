@@ -1,0 +1,27 @@
+$border-style: 1px solid #666;
+.table {
+  display: flex;
+  flex-direction: column;
+  border: $border-style;
+  border-radius: 0.5rem;
+  &__row {
+    display: flex;
+    border-bottom: $border-style;
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
+  &__cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 20rem;
+    padding: 0.5rem;
+    border-right: $border-style;
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+}

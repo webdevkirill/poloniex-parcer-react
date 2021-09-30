@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export interface DataI {
-  [propName: string]: DataItemI;
+  [key: string]: DataItemI;
 }
 export interface DataItemI {
   id: number;

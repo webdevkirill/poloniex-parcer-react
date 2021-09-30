@@ -4,10 +4,15 @@ import styles from "./QuotesPage.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { apiState, fetchAPIData } from "../../store/reducers/api.reducer";
+import {
+  apiState,
+  clearData,
+  fetchAPIData,
+} from "../../store/reducers/api.reducer";
+import QuotesTable from "./QuotesTable/QuotesTable";
 
 const quotesPageLinks = {
-  "/": "Главная",
+  "/": "О приложении",
 };
 
 const quotesTabsLinks: { [key: string]: string } = {
@@ -26,10 +31,12 @@ export default function QuotesPage() {
     timerRef.current = setInterval(() => {
       dispatch(fetchAPIData(+id));
     }, 5000);
+
     return () => {
       if (timerRef.current !== undefined) {
         clearInterval(timerRef.current);
       }
+      dispatch(clearData());
     };
   }, [id, dispatch]);
 
@@ -52,6 +59,7 @@ export default function QuotesPage() {
             </Link>
           ))}
         </div>
+        <QuotesTable data={state.data} />
       </div>
     </div>
   );
