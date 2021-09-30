@@ -6,9 +6,9 @@ $border-style: 1px solid #666;
   border-radius: 0.5rem;
   &__row {
     display: flex;
-    border-bottom: $border-style;
-    &:last-of-type {
-      border-bottom: none;
+    &:not(:first-of-type) {
+      border-top: $border-style;
+      cursor: pointer;
     }
   }
   &__cell {

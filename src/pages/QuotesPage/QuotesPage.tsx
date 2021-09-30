@@ -1,14 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import styles from "./QuotesPage.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import {
-  apiState,
-  clearData,
-  fetchAPIData,
-} from "../../store/reducers/api.reducer";
+import { apiState, fetchAPIData } from "../../store/reducers/api.reducer";
 import QuotesTable from "./QuotesTable/QuotesTable";
 
 const quotesPageLinks = {
@@ -22,25 +18,34 @@ const quotesTabsLinks: { [key: string]: string } = {
 
 export default function QuotesPage() {
   let { id } = useParams<{ id: string }>();
-  const timerRef = useRef<ReturnType<typeof setInterval>>();
   const state = useAppSelector(apiState);
   const dispatch = useAppDispatch();
 
+  const timerRef = useRef<ReturnType<typeof setInterval>>();
+  const [isTimerStarted, setIsTimerStarted] = useState(false);
+
   useEffect(() => {
     dispatch(fetchAPIData(+id));
-    timerRef.current = setInterval(() => {
-      dispatch(fetchAPIData(+id));
-    }, 5000);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (state.openedQuote === null) {
+      if (!isTimerStarted) {
+        timerRef.current = setInterval(() => {
+          dispatch(fetchAPIData(+id));
+        }, 5000);
+      }
+    } else {
+      clearInterval(timerRef.current);
+    }
 
     return () => {
       if (timerRef.current !== undefined) {
         clearInterval(timerRef.current);
       }
-      dispatch(clearData());
+      setIsTimerStarted(false);
     };
-  }, [id, dispatch]);
-
-  console.log(state);
+  }, [state.openedQuote, isTimerStarted, id, dispatch]);
 
   return (
     <div>

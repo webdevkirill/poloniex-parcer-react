@@ -1,5 +1,7 @@
 import React from "react";
 import { DataI } from "../../api/app.api";
+import { toggleQuote } from "../../store/reducers/api.reducer";
+import { useAppDispatch } from "../../store/store";
 import styles from "./Table.module.scss";
 
 export interface TableI {
@@ -9,6 +11,11 @@ export interface TableI {
 
 export default function Table({ headers, data }: TableI) {
   const headersKeys = Object.keys(headers);
+  const dispatch = useAppDispatch();
+
+  const handleRowClick = (id: number) => {
+    dispatch(toggleQuote(id));
+  };
 
   return (
     <div className={styles.table}>
@@ -21,7 +28,13 @@ export default function Table({ headers, data }: TableI) {
         ))}
       </div>
       {Object.keys(data).map((dataKey) => (
-        <div key={dataKey} className={styles.table__row}>
+        <div
+          key={dataKey}
+          className={styles.table__row}
+          onClick={() => {
+            handleRowClick(data[dataKey].id);
+          }}
+        >
           <div className={styles.table__cell}>{dataKey}</div>
           {headersKeys.map((key) => (
             <div key={key} className={styles.table__cell}>

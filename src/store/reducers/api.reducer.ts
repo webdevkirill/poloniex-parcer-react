@@ -6,12 +6,14 @@ export interface DataState {
   data: { [key: string]: DataItemI };
   status: "idle" | "loading" | "failed";
   error: any;
+  openedQuote: null | number;
 }
 
 const initialState: DataState = {
   data: {},
   status: "idle",
   error: "",
+  openedQuote: null,
 };
 
 export const fetchAPIData = createAsyncThunk(
@@ -30,6 +32,9 @@ export const apiSlice = createSlice({
       state.data = {};
       state.status = "idle";
       state.error = "";
+    },
+    toggleQuote: (state, { payload }) => {
+      state.openedQuote = payload;
     },
   },
   extraReducers: (builder) => {
@@ -50,6 +55,6 @@ export const apiSlice = createSlice({
 });
 
 export const apiState = (state: RootState) => state.api;
-export const { clearData } = apiSlice.actions;
+export const { clearData, toggleQuote } = apiSlice.actions;
 
 export default apiSlice.reducer;
