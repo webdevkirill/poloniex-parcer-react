@@ -12,7 +12,7 @@ import {
 import QuotesTable from "./QuotesTable/QuotesTable";
 import Modal from "../../components/Modal/Modal";
 import QuoteModalInfo from "./QuoteModalInfo/QuoteModalInfo";
-import Loader from "../../components/Loader/Loader";
+import ErrorNotification from "../../components/ErrorNotification/ErrorNotification";
 
 const quotesPageLinks = {
   "/": "О приложении",
@@ -62,8 +62,6 @@ export default function QuotesPage() {
     }
   }, [state.openedQuote]);
 
-  console.log(state.status);
-
   return (
     <div>
       {state.openedQuote !== null && (
@@ -75,6 +73,7 @@ export default function QuotesPage() {
         </Modal>
       )}
       <Sidebar links={quotesPageLinks} />
+      {state.openedQuote === null && state.error && <ErrorNotification />}
       <div className={styles.quotes}>
         <div className={styles.tabs}>
           {Object.keys(quotesTabsLinks).map((key) => (
