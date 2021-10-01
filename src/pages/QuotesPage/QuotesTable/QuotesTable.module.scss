@@ -1,0 +1,10 @@
+.quotes-table {
+  position: relative;
+  padding-top: 3rem;
+  &__loader {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

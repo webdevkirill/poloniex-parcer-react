@@ -12,6 +12,7 @@ import {
 import QuotesTable from "./QuotesTable/QuotesTable";
 import Modal from "../../components/Modal/Modal";
 import QuoteModalInfo from "./QuoteModalInfo/QuoteModalInfo";
+import Loader from "../../components/Loader/Loader";
 
 const quotesPageLinks = {
   "/": "О приложении",
@@ -61,6 +62,8 @@ export default function QuotesPage() {
     }
   }, [state.openedQuote]);
 
+  console.log(state.status);
+
   return (
     <div>
       {state.openedQuote !== null && (
@@ -86,7 +89,7 @@ export default function QuotesPage() {
             </Link>
           ))}
         </div>
-        <QuotesTable data={state.data} />
+        <QuotesTable data={state.data} loading={state.status === "loading"} />
       </div>
     </div>
   );
